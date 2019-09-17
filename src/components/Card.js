@@ -5,53 +5,46 @@ import { Text,
 
 
 export default class Card extends React.Component {
-    state = {
-        selectable: true,
-        textToDisplay: this.props.textToDisplay,
-    }
 
-    disableSelection = () => {
-        this.setState( () => ({
-            selectable: false,
-        }));
-    }
+    onCardPressed = () => {
+        if (!this.props.selectable) return;
 
-    componentDidUpdate() {
-        // console.log('Card component did update');
-
-        // this.setState( () => ({
-        //     textToDisplay: this.props.textToDisplay,
-        // }));
-    }
-
+        this.props.onCardPressed(this.props.index);
+    } 
+    
     render() {
         return (
-            <TouchableOpacity style={styles.card}
-                 onPress={() => {
-                    this.setState( () => ({
-                        textToDisplay: this.props.player,
-                    }));
-                    console.log(this.props.textToDisplay);
-
-                    this.disableSelection();
-                    this.props.onCardPressed();
-                }}>
-                
-                <Text style={styles.text}> {this.state.textToDisplay} </Text>
+            <TouchableOpacity style={CardStyle.card}
+                 onPress={this.onCardPressed} >  
+                <Text style={this.props.style}> {this.props.textToDisplay} </Text>
             </TouchableOpacity>
         )
     }
     
 }
 
-const styles = StyleSheet.create({
+export const CardStyle = StyleSheet.create({
     card: {
-        backgroundColor: '#aaa',
+        backgroundColor: '#f1f1f1',
         flex: 1,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // alignContent: 'center',
     },
-    text: {
+    textPlayer1: {
         fontSize: 80,
         textAlign: 'center',
+        fontWeight: 'bold',
+        flex: 1,
+        color: 'blue'
+    },
+    textPlayer2: {
+        fontSize: 80,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        flex: 1,
+        color: 'red'
     }
 });
 

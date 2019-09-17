@@ -15,10 +15,15 @@ export default class MainScreen extends React.Component {
 
     playerTurnChanged = (newPlayer) => {
         this.setState(() => ({
+            enableResetBtn: true,
             playerText: newPlayer === PLAYER_1 ? strings.player1 : strings.player2,
             player: newPlayer,
-            // playerText: strings.player1,
         }));
+    }
+
+    resetGame = () => {
+        console.log("resetGame clicked!");
+        this.render;
     }
 
     render() {
@@ -31,7 +36,11 @@ export default class MainScreen extends React.Component {
                     playerTurnChanged={this.playerTurnChanged}/>
                 
                 {/* <Button style={styles.buttons} title={strings.play} /> */}
-                <Button style={styles.buttons} title={strings.reset}  disabled={!this.state.enableResetBtn}/>
+                <Button 
+                    style={styles.buttons} 
+                    title={strings.reset}  
+                    disabled={!this.state.enableResetBtn}
+                    onPress={this.resetGame}/>
             </View>
         )
     }

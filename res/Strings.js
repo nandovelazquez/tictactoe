@@ -1,4 +1,4 @@
-const strings = {
+const Strings = {
     name: 'tictactoe',
     displayName: 'Tic Tac Toe',
     title: 'TicTacToe',
@@ -11,4 +11,4 @@ const strings = {
     player2: 'Player 2',
 }
 
-export default strings;
+export default Strings;

@@ -1,55 +1,59 @@
 import React from 'react';
 import {StyleSheet, View, Text, Button, FlatList} from 'react-native';
-import Card from '../components/Card';
-import strings from '../../res/Strings';
-import colors from '../../res/Colors';
+import Card, {CardStyle} from '../components/Card';
+import Strings from '../../res/Strings';
+import Colors from '../../res/Colors';
 
 export const PLAYER_1 = '1';
 export const PLAYER_2 = '2';
+const PLAYER_1_TEXT = Strings.playerOption1;
+const PLAYER_2_TEXT = Strings.playerOption2;
 
 export default class BoardView extends React.Component {
 
     state = {
-        dataSource: [[]],
-        textToDisplay: strings.playerOptionNull,
         player: PLAYER_1,
+        dataSource: Array.from( {length: 9}, () => ({
+            index: 0, 
+            selectable: true,
+            textToDisplay: Strings.playerOptionNull,
+            style: CardStyle.textPlayer1,
+        })), 
     }
 
-    componentDidMount() {
-        this.setupData();
-    }
+    addKeys = (val, key) => ({key: key, ...val});
 
-    setupData = () => {
-        for (let i = 0; i < 9; i++) {
-            this.state.dataSource[i] = {title: '', value: 0};
-        }
-
-        //console.log(this.state.dataSource);
-    }
-
-    renderItem = ({item}) => (
-        <Card {...item} 
-            textToDisplay={this.state.textToDisplay}
+    renderItem = ({item, index}) => (
+        <Card {...item} index={index}
+            player={this.state.player}
             onCardPressed={this.changePlayerTurn}/>
     );
 
-    changePlayerTurn = () => {
-        
-        // TODO: Add the tapped card to the sourceData array
+    changePlayerTurn = (index) => {
+        // Creates the a new data source and replaces the old one
+        newSource = this.state.dataSource;
+        newSource[index] = {
+            index: index, 
+            player: this.state.player,
+            selectable: false,
+            textToDisplay: this.state.player === PLAYER_1 
+                ? PLAYER_1_TEXT
+                : PLAYER_2_TEXT,
+            style: this.state.player === PLAYER_1 
+                ? CardStyle.textPlayer1
+                : CardStyle.textPlayer2,
+        }
 
-        this.setState((prevState) => ({
+        this.setState((prevState) => ({        
+            dataSource: [...newSource],
             player: prevState.player === PLAYER_1 
                 ? PLAYER_2 
                 : PLAYER_1,
-                
-            textToDisplay: this.state.player === PLAYER_1 
-                ? strings.playerOption1
-                : strings.playerOption2,
         }));
-
+        
         this.props.playerTurnChanged(this.state.player);
     }
-
+    
     render() {
         return (
             <FlatList
@@ -65,5 +69,6 @@ export default class BoardView extends React.Component {
 const styles = StyleSheet.create({
     board: {
         flexGrow: 0, // Wrap content only
-    }
+    },
+   
 });
