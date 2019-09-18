@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, 
     StyleSheet, 
     TouchableOpacity} from 'react-native';
+import Colors from '../../res/Colors';
 
 
 export default class Card extends React.Component {
@@ -25,7 +26,7 @@ export default class Card extends React.Component {
 
 export const CardStyle = StyleSheet.create({
     card: {
-        backgroundColor: '#f1f1f1',
+        backgroundColor: Colors.cardBackground,
         flex: 1,
         margin: 5,
         justifyContent: 'center',
@@ -37,14 +38,14 @@ export const CardStyle = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         flex: 1,
-        color: 'blue'
+        color: Colors.cardPlayerOne
     },
     textPlayer2: {
         fontSize: 80,
         textAlign: 'center',
         fontWeight: 'bold',
         flex: 1,
-        color: 'red'
+        color: Colors.cardPlayerTwo,
     }
 });
 

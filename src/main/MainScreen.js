@@ -11,6 +11,7 @@ export default class MainScreen extends React.Component {
         enableResetBtn: false,
         player: PLAYER_1,
         playerText: strings.player1,
+        playerColor: colors.cardPlayerOne,
     }
 
     playerTurnChanged = (newPlayer) => {
@@ -18,6 +19,7 @@ export default class MainScreen extends React.Component {
             enableResetBtn: true,
             playerText: newPlayer === PLAYER_1 ? strings.player1 : strings.player2,
             player: newPlayer,
+            playerColor: newPlayer === PLAYER_1 ? colors.cardPlayerOne : colors.cardPlayerTwo,
         }));
     }
 
@@ -28,8 +30,7 @@ export default class MainScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.app}>
-                <Text style={styles.text}>{strings.title}</Text>
+            <View style={styles.gameBoard}>
                 <Text style={styles.playerText}>{this.state.playerText}</Text>
                 
                 <BoardView 
@@ -47,7 +48,7 @@ export default class MainScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    app: {
+    gameBoard: {
         margin: 25,
         justifyContent: 'center',
         flex: 1,
@@ -61,11 +62,10 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 20,
         fontSize: 40,
-        color: colors.cardPlayerTwo,
+        color: colors.cardPlayerOne,
     },
     buttons: {
-        marginTop: 40,
-        backgroundColor: '#eaea'
+        marginTop: 60,
     }
 
 })

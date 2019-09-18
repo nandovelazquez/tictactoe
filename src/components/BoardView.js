@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View, Text, Button, FlatList} from 'react-native';
 import Card, {CardStyle} from '../components/Card';
 import Strings from '../../res/Strings';
-import Colors from '../../res/Colors';
 
 export const PLAYER_1 = '1';
 export const PLAYER_2 = '2';
@@ -20,8 +19,6 @@ export default class BoardView extends React.Component {
             style: CardStyle.textPlayer1,
         })), 
     }
-
-    addKeys = (val, key) => ({key: key, ...val});
 
     renderItem = ({item, index}) => (
         <Card {...item} index={index}
