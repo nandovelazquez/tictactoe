@@ -9,19 +9,30 @@ export default class MainScreen extends React.Component {
     
     state = {
         enableResetBtn: false,
-        player: PLAYER_1,
         playerText: strings.player1,
-        playerColor: colors.cardPlayerOne,
     }
 
     playerTurnChanged = (newPlayer) => {
         this.setState(() => ({
             enableResetBtn: true,
             playerText: newPlayer === PLAYER_1 ? strings.player1 : strings.player2,
-            player: newPlayer,
-            playerColor: newPlayer === PLAYER_1 ? colors.cardPlayerOne : colors.cardPlayerTwo,
         }));
     }
+
+    onHaveWinner = (player) => {
+        this.setState(() => ({
+            enableResetBtn: true,
+            playerText: strings.winnerIs + ' ' + player,
+        }));
+    } 
+
+    onTiedGame = () => {
+        this.setState(() => ({
+            enableResetBtn: true,
+            playerText: strings.tiedGame,
+            
+        }));
+    } 
 
     resetGame = () => {
         console.log("resetGame clicked!");
@@ -34,7 +45,9 @@ export default class MainScreen extends React.Component {
                 <Text style={styles.playerText}>{this.state.playerText}</Text>
                 
                 <BoardView 
-                    playerTurnChanged={this.playerTurnChanged}/>
+                    playerTurnChanged={this.playerTurnChanged}
+                    onHaveWinner={this.onHaveWinner}
+                    onTiedGame={this.onTiedGame}/>
                 
                 {/* <Button style={styles.buttons} title={strings.play} /> */}
                 <Button 
