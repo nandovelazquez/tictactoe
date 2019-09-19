@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, FlatList} from 'react-native';
+import {StyleSheet, FlatList, Button} from 'react-native';
 import Card, {CardStyle} from '../components/Card';
 import Strings from '../../res/Strings';
 
@@ -12,6 +12,7 @@ const CARDS_LENGTH = 9;
 export default class BoardView extends React.Component {
 
     state = {
+        enableResetBtn: false,
         player: PLAYER_1,
         cardCounter: 1,
         dataSource: Array.from( {length: CARDS_LENGTH}, () => ({
@@ -47,7 +48,8 @@ export default class BoardView extends React.Component {
                 : CardStyle.textPlayer2,
         }
 
-        this.setState((prevState) => ({        
+        this.setState((prevState) => ({    
+            enableResetBtn: true,    
             dataSource: [...newSource],
             cardCounter: prevState.cardCounter + 1,
             player: prevState.player === PLAYER_1 ? PLAYER_2 : PLAYER_1,
@@ -78,6 +80,22 @@ export default class BoardView extends React.Component {
             dataSource: [...cards],
         }));
     }
+
+    resetGame = () => {
+        this.setState(() => ({        
+            enableResetBtn: false,
+            player: PLAYER_1,
+            cardCounter: 1,
+            dataSource: Array.from( {length: CARDS_LENGTH}, () => ({
+                index: 0, 
+                selectable: true,
+                textToDisplay: Strings.playerOptionNull,
+                style: CardStyle.textPlayer1,
+            })),
+        }));
+
+        this.props.onReset();
+    }
     
     validateMove = (index) => {
         let items = this.state.dataSource;
@@ -104,14 +122,19 @@ export default class BoardView extends React.Component {
     }
 
     render() {
-        return (
+        return (<>
             <FlatList
                 style={styles.board}
                 data={this.state.dataSource}
                 renderItem = { this.renderItem }
                 keyExtractor = {(item, index) => index.toString()}
                 numColumns = {3} />
-        )
+                <Button 
+                    style={styles.buttons} 
+                    title={Strings.reset}  
+                    disabled={!this.state.enableResetBtn}
+                    onPress={this.resetGame}/>
+        </>)
     }
 }
 
@@ -119,5 +142,8 @@ const styles = StyleSheet.create({
     board: {
         flexGrow: 0, // Wrap content only
     },
+    buttons: {
+        marginTop: 60,
+    }
    
 });

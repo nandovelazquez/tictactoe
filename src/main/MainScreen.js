@@ -8,14 +8,14 @@ import colors from '../../res/Colors';
 export default class MainScreen extends React.Component {
     
     state = {
-        enableResetBtn: false,
+        player: PLAYER_1,
         playerText: strings.player1,
     }
 
     playerTurnChanged = (newPlayer) => {
         this.setState(() => ({
-            enableResetBtn: true,
             playerText: newPlayer === PLAYER_1 ? strings.player1 : strings.player2,
+            player: newPlayer,
         }));
     }
 
@@ -28,35 +28,28 @@ export default class MainScreen extends React.Component {
 
     onTiedGame = () => {
         this.setState(() => ({
-            enableResetBtn: true,
             playerText: strings.tiedGame,
-            
         }));
     } 
 
-    resetGame = () => {
-        console.log("resetGame clicked!");
-        this.render;
+    onResetGame = () => {
+        console.log('onResetGame');
+        this.setState(() => ({
+            playerText: strings.player1,
+        }));
     }
 
     render() {
-        return (
+         return (
             <View style={styles.gameBoard}>
                 <Text style={styles.playerText}>{this.state.playerText}</Text>
-                
                 <BoardView 
                     playerTurnChanged={this.playerTurnChanged}
                     onHaveWinner={this.onHaveWinner}
-                    onTiedGame={this.onTiedGame}/>
-                
-                {/* <Button style={styles.buttons} title={strings.play} /> */}
-                <Button 
-                    style={styles.buttons} 
-                    title={strings.reset}  
-                    disabled={!this.state.enableResetBtn}
-                    onPress={this.resetGame}/>
+                    onTiedGame={this.onTiedGame}
+                    onReset={this.onResetGame}/>
             </View>
-        )
+         )
     }
 }
 
@@ -77,8 +70,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: colors.cardPlayerOne,
     },
-    buttons: {
-        marginTop: 60,
-    }
+    
 
 })
