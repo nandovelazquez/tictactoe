@@ -33,7 +33,6 @@ export default class MainScreen extends React.Component {
     } 
 
     onResetGame = () => {
-        console.log('onResetGame');
         this.setState(() => ({
             playerText: strings.player1,
         }));
